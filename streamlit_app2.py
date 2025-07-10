@@ -4,7 +4,7 @@ import clickhouse_connect
 import time
 
 # Refresh every 2 mins
-st.experimental_set_query_params(update=int(time.time() // 120))
+st.query_params.update(update=int(time.time() // 120))
 
 st.title("🌤️ Mumbai Weather Dashboard (Live, IST)")
 st.caption("Powered by MySQL → ClickPipes → ClickHouse → Streamlit")
