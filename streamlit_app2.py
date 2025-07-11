@@ -15,26 +15,28 @@ client = clickhouse_connect.get_client(
     user=st.secrets["clickhouse"]["user"],
     password=st.secrets["clickhouse"]["password"],
     secure=True,
-    database='MySQL-CDC' 
+    database='MySQL-CDC'  # make sure this matches your database name
 )
 
 # 🔹 Visual 1: Trends
 st.subheader("📈 Temperature Trends (Every 2 Minutes)")
+
 query_mv = """
 SELECT *
 FROM temp_trend_mv
 ORDER BY interval_time_ist DESC
-LIMIT 30
 """
 result = client.query(query_mv)
 df_mv = pd.DataFrame(result.result_rows, columns=result.column_names)
 df_mv = df_mv.sort_values("interval_time_ist")
+
 st.line_chart(df_mv.set_index("interval_time_ist")[["avg_temp", "min_temp", "max_temp"]])
 with st.expander("📄 View Aggregated Data"):
     st.dataframe(df_mv)
 
 # 🔹 Visual 2: Latest Snapshot
 st.subheader("🌡️ Latest Live Weather Snapshot")
+
 query_latest = """
 SELECT
     city,
@@ -42,7 +44,7 @@ SELECT
     humidity,
     weather_description,
     timestamp + INTERVAL 5 HOUR 30 MINUTE AS ist_time
-FROM weather_data
+FROM live_weather_db_weather_data
 ORDER BY timestamp DESC
 LIMIT 1
 """
