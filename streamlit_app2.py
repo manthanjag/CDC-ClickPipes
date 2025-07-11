@@ -14,7 +14,7 @@ client = clickhouse_connect.get_client(
     host=st.secrets["clickhouse"]["host"],
     user=st.secrets["clickhouse"]["user"],
     password=st.secrets["clickhouse"]["password"],
-    secure=True
+    secure=True,
     database='MySQL-CDC' 
 )
 
