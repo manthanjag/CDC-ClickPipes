@@ -43,7 +43,7 @@ SELECT
     temperature,
     humidity,
     weather_description,
-    toTimeZone(timestamp, 'Asia/Kolkata') AS ist_time
+    toTimeZone(toDateTime(timestamp), 'Asia/Kolkata') AS ist_time
 FROM live_weather_db_weather_data
 ORDER BY timestamp DESC
 LIMIT 1
