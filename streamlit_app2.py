@@ -43,11 +43,12 @@ SELECT
     temperature,
     humidity,
     weather_description,
-    timestamp + INTERVAL 5 HOUR 30 MINUTE AS ist_time
+    toTimeZone(timestamp, 'Asia/Kolkata') AS ist_time
 FROM live_weather_db_weather_data
 ORDER BY timestamp DESC
 LIMIT 1
 """
+
 latest = client.query(query_latest)
 latest_df = pd.DataFrame(latest.result_rows, columns=latest.column_names)
 
